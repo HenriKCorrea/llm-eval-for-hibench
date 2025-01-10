@@ -1,0 +1,5 @@
+model_list:
+  - model_name: Gemini 2.0 Flash Experimental
+    litellm_params:
+      model: gemini/gemini-2.0-flash-exp
+      api_key: os.environ/GOOGLE_AI_API_KEY # runs os.getenv("GOOGLE_AI_API_KEY=")
