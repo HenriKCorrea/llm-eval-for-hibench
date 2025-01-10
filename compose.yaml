@@ -1,0 +1,33 @@
+services:
+  litellm:
+    image: ghcr.io/berriai/litellm:main-v1.57.1
+    container_name: litellm
+    ports:
+      - "4000:4000"
+    environment:
+      - GOOGLE_AI_API_KEY=${GOOGLE_AI_API_KEY}
+    volumes:
+      - ./litellm_config.yaml:/app/config.yaml
+    command: ["--config", "/app/config.yaml", "--detailed_debug"]
+    networks:
+      - llm-network
+
+  open-webui:
+    image: ghcr.io/open-webui/open-webui:git-1dfb479
+    container_name: open-webui
+    ports:
+      - "3000:8080"
+    volumes:
+      - open-webui:/app/backend/data
+    networks:
+      - llm-network
+    depends_on:
+      - litellm
+
+volumes:
+  open-webui:
+    name: tf-open-webui
+
+networks:
+  # The presence of these objects is sufficient to define them
+  llm-network: {}
