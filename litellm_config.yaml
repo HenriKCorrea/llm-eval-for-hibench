@@ -3,3 +3,11 @@ model_list:
     litellm_params:
       model: gemini/gemini-2.0-flash-exp
       api_key: os.environ/GOOGLE_AI_API_KEY # runs os.getenv("GOOGLE_AI_API_KEY=")
+  - model_name: Llama 3.1 70b instruct
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.1-70b-instruct:free  # add openai/ prefix to route as OpenAI provider
+      api_key: os.environ/OPENROUTER_API_KEY # api key to send your model
+  - model_name: Claude 3.5 Sonnet ### RECEIVED MODEL NAME ###
+    litellm_params: # all params accepted by litellm.completion() - https://docs.litellm.ai/docs/completion/input
+      model: claude-3-5-sonnet-20240620 ### MODEL NAME sent to `litellm.completion()` ###
+      api_key: "os.environ/ANTHROPIC_API_KEY" # does os.getenv("AZURE_API_KEY_EU")
