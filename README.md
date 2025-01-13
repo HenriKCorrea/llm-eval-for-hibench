@@ -4,6 +4,10 @@
 
 # Challenges
 
+Functional validity score:
+- Package build
+  - Scala syntax error: -1 point per error 
+
 ## Word count
 
 ### Code changes
