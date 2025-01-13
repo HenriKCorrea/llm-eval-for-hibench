@@ -7,7 +7,7 @@ model_list:
     litellm_params:
       model: openrouter/meta-llama/llama-3.1-70b-instruct:free  # add openai/ prefix to route as OpenAI provider
       api_key: os.environ/OPENROUTER_API_KEY # api key to send your model
-  - model_name: Phi 3 mini 4k Instruct
+  - model_name: Phi 3 mini Instruct
     litellm_params:
-      model: huggingface/microsoft/Phi-3-mini-4k-instruct
+      model: huggingface/microsoft/Phi-3.5-mini-instruct
       api_key: os.environ/HUGGINGFACE_API_KEY
