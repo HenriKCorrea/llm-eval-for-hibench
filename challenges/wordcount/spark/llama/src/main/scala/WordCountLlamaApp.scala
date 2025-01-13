@@ -12,9 +12,11 @@ object WordCountLlamaApp {
 
     val spark = SparkSession.builder.appName("Word Count Llama App").getOrCreate()
 
-    val textFile = spark.read.text(inputFilePath)
+    import spark.implicits._
 
-    val words = textFile.flatMap(_.value.split("\\s+"))
+    val textFile = spark.read.text(inputFilePath).as[String]
+
+    val words = textFile.flatMap(_.split("\\s+"))
 
     val wordCounts = words.groupBy("value").count()
 

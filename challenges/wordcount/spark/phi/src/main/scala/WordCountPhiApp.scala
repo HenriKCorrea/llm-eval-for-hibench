@@ -10,6 +10,8 @@ object WordCountPhiApp {
       .appName("WordCountPhiApp")
       .getOrCreate()
 
+    import spark.implicits._
+
     // Read the text file into a DataFrame
     val lines = spark.readStream
       .option("encoding", "UTF-8")
