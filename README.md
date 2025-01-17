@@ -10,7 +10,7 @@ Functional validity score:
 
 ## Word count
 
-### Code changes
+### Changes made on original LLM code
 
 #### WordCountLlamaApp.scala
 

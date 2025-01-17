@@ -1,3 +1,4 @@
 challenges/**/project/
 challenges/**/target/
 challenges/**/.bsp/
+challenges/output/
