@@ -88,7 +88,7 @@ host_input_dir="$SCRIPT_DIR/input"
 host_output_dir="$SCRIPT_DIR/output"
 
 # Set host binaries directory
-host_bin_dir="$SCRIPT_DIR/$task_name/$framework/$llm/target/scala-2.12"
+host_bin_dir="$SCRIPT_DIR/$task_name/$framework/target/scala-2.12"
 
 # Set container image
 container_image=""
@@ -106,9 +106,8 @@ java_class_name=""
 
 # Set JAR name
 jar_name=""
-[ "$container_name" == "spark-wordcount-gemini" ] && jar_name="wordcount-gemini-app_2.12-1.0.jar"
-[ "$container_name" == "spark-wordcount-phi" ] && jar_name="wordcount-phi-app_2.12-1.0.jar"
-[ "$container_name" == "spark-wordcount-llama" ] && jar_name="wordcount-llama-app_2.12-1.0.jar"
+[ "$framework" == "spark" ] && [ "$task_name" == "wordcount" ] && jar_name="spark-wordcount-app_2.12-1.0.jar"
+[ "$framework" == "flink" ] && [ "$task_name" == "wordcount" ] && jar_name="flink-wordcount-app_2.12-1.0.jar"
 
 # Set Application bin directory
 application_bin_dir="$container_workdir/bin"
@@ -122,6 +121,23 @@ application_input_list=()
 
 # Set Application output
 application_output="$container_output_dir/$container_name"
+
+build_jar() {
+    # Skip if jar already exists
+    if [ -f "$host_bin_dir/$jar_name" ]; then
+        return
+    fi
+
+    # Build the jar
+    echo "Building application"
+    pushd "$SCRIPT_DIR/$task_name/$framework" > /dev/null
+    if ! sbt package; then
+        echo "Error: unable to build jar."
+        popd > /dev/null
+        exit 1
+    fi
+    popd > /dev/null
+}
 
 remove_container() {
     # Test if container is running
@@ -174,6 +190,7 @@ execute_task() {
 }
 
 # Main function
+build_jar
 remove_container
 create_output_directory
 execute_task
