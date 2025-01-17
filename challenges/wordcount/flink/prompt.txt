@@ -1,0 +1,3 @@
+Generate a Apache Flink application using Scala language to solve the problem!
+
+Given a plain text UTF-8 file URL and a output CSV file URL, write in the output file the occurrence sum of each word in the input file.
