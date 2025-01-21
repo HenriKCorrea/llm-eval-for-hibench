@@ -56,7 +56,7 @@
 
 ### [WordCountLlamaApp.scala](challenges/wordcount/spark/src/main/scala/WordCountLlamaApp.scala)
 
-Issues:
+Build Issues:
 - Missing import
 - Missing type cast
 - Invalid member access
@@ -78,10 +78,13 @@ Issues:
     val words = textFile.flatMap(_.split("\\s+"))
 ```
 
+Code executed with success!
+
 ### [WordCountPhiApp.scala](challenges/wordcount/spark/src/main/scala/WordCountPhiApp.scala)
 
 Issue: 
 - Missing import to support [String] encoder.
+- Application failed
 
 ```log
 [error] /home/henrique/repo/llm-eval-for-hibench/challenges/wordcount/spark/src/main/scala/WordCountPhiApp.scala:20:25: Unable to find encoder for type String. An implicit Encoder[String] is needed to store String instances in a Dataset. Primitive types (Int, String, etc) and Product types (case classes) are supported by importing spark.implicits._  Support for serializing other types will be added in future releases.
@@ -94,7 +97,6 @@ Issue:
     import spark.implicits._
 ```
 
-- WordCountPhiApp application failed
 ```log
 Exception in thread "main" org.apache.spark.sql.AnalysisException: Data source csv does not support Complete output mode.
 ```
@@ -112,11 +114,20 @@ Exception in thread "main" org.apache.spark.sql.AnalysisException: Data source c
 ### [WordCountGeminiFlinkApp.scala](challenges/wordcount/flink/src/main/scala/WordCountGeminiFlinkApp.scala)
 
 - Compiled successfully. No intervention required.
+- Application failed
+
+```text
+------------------------------------------------------------
+ The program finished with the following exception:
+
+org.apache.flink.client.program.ProgramInvocationException: Neither a 'Main-Class', nor a 'program-class' entry was found in the jar file.
+```
 
 ### [WordCountLlamaFlinkApp.scala](challenges/wordcount/flink/src/main/scala/WordCountLlamaFlinkApp.scala)
 
 Issue: 
 - Missing import to provide scala API return types.
+- Application failed
 
 ```log
 [error] /home/henrique/repo/llm-eval-for-hibench/challenges/wordcount/flink/src/main/scala/WordCountLlamaFlinkApp.scala:18:15: could not find implicit value for evidence parameter of type org.apache.flink.api.common.typeinfo.TypeInformation[(String, Int)]
@@ -127,6 +138,12 @@ Issue:
     import org.apache.flink.api.scala._
 ```
 
+```text
+------------------------------------------------------------
+ The program finished with the following exception:
+
+org.apache.flink.client.program.ProgramInvocationException: Neither a 'Main-Class', nor a 'program-class' entry was found in the jar file.
+```
 
 ### [WordCountPhiFlinkApp](challenges/wordcount/flink/src/main/scala/WordCountPhiFlinkApp.scala)
 
@@ -176,5 +193,3 @@ See [List of inspections](https://github.com/scapegoat-scala/scapegoat?tab=readm
 - Missing prompt details:
   - Application will run in batch mode (to avoid streaming implementation).
   - Define application name to ensure consistency among LLM implementations and avoid manual refactor.
-
-docker stop flink; docker rm flink; docker run --detach --name flink -p 8081:8081 flink:1.13.0-scala_2.12-java11 /docker-entrypoint.sh jobmanager && docker exec --detach flink /docker-entrypoint.sh taskmanager && docker exec --user flink flink mkdir -p /opt/flink/work-dir/input/ && docker cp /home/henrique/repo/llm-eval-for-hibench/challenges/input/dracula.txt flink:/opt/flink/work-dir/input/ && docker exec flink flink run examples/batch/WordCount.jar --input /opt/flink/work-dir/input/dracula.txt --output /opt/flink/work-dir/AppOutput.txt && docker cp flink:/opt/flink/work-dir/AppOutput.txt /home/henrique/repo/llm-eval-for-hibench/challenges/output/ && docker stop flink && docker rm flink
