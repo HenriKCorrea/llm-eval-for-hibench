@@ -196,3 +196,5 @@ create_output_directory
 execute_task
 copy_results
 remove_container
+
+# docker stop flink; docker rm flink; docker run --detach --name flink -p 8081:8081 flink:1.13.0-scala_2.12-java11 /docker-entrypoint.sh jobmanager && docker exec --detach flink /docker-entrypoint.sh taskmanager && docker exec --user flink flink mkdir -p /opt/flink/work-dir/input/ && docker cp /home/henrique/repo/llm-eval-for-hibench/challenges/input/dracula.txt flink:/opt/flink/work-dir/input/ && docker cp /home/henrique/repo/llm-eval-for-hibench/challenges/wordcount/flink/target/scala-2.12/flink-wordcount-app_2.12-1.0.jar flink:/opt/flink/work-dir && docker exec flink flink run /opt/flink/work-dir/flink-wordcount-app_2.12-1.0.jar --input /opt/flink/work-dir/input/dracula.txt --output /opt/flink/work-dir/AppOutput.txt && docker cp flink:/opt/flink/work-dir/AppOutput.txt /home/henrique/repo/llm-eval-for-hibench/challenges/output/ && docker stop flink && docker rm flink
